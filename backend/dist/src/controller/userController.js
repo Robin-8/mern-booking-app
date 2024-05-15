@@ -65,9 +65,12 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const { email, password } = req.body;
     try {
-        const user = yield user_1.default.findOne({ email });
+        const user = yield user_1.default.findOne({ email, role: "user" });
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        if (user.role !== "user") {
+            res.status(400).json({ message: 'You are not a user' });
         }
         const isMatch = yield bcryptjs_1.default.compare(password, user.password);
         if (!isMatch) {

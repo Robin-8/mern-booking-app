@@ -17,8 +17,16 @@ const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const mongoose_1 = __importDefault(require("mongoose"));
 const userRoute_1 = __importDefault(require("./routes/userRoute"));
+const hotelRoute_1 = __importDefault(require("./routes/hotelRoute"));
+const adminRoute_1 = __importDefault(require("./routes/adminRoute"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const path_1 = __importDefault(require("path"));
+const cloudinary_1 = require("cloudinary");
+cloudinary_1.v2.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET
+});
 mongoose_1.default.connect(process.env.MONGO_URL);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -30,6 +38,8 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.static(path_1.default.join(__dirname, "../../frontend/dist")));
 app.use('/api/user', userRoute_1.default);
+app.use('/api/admin', hotelRoute_1.default);
+app.use('/api/super', adminRoute_1.default);
 app.get('/api/test', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ message: 'hai' });
 }));

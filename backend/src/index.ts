@@ -1,10 +1,19 @@
-import express,{Request,Response} from 'express';
+import express from 'express';
 import cors from 'cors'
 import "dotenv/config"
 import mongoose from 'mongoose'
 import userRoute from './routes/userRoute';
+import hotelRoute from './routes/hotelRoute'
+import adminRoute from './routes/adminRoute'
 import cookieParser from 'cookie-parser'
 import path from 'path';
+import{ v2 as cloudinary }from 'cloudinary';
+
+cloudinary.config({
+    cloud_name:process.env.CLOUDINARY_NAME,
+    api_key:process.env.CLOUDINARY_API_KEY,
+    api_secret:process.env.CLOUDINARY_SECRET
+})
 
 
 mongoose.connect(process.env.MONGO_URL as string)
@@ -22,10 +31,9 @@ app.use(cors({
 app.use(express.static(path.join(__dirname,"../../frontend/dist")))
 
 app.use('/api/user',userRoute)
+app.use('/api/admin',hotelRoute)
+app.use('/api/super',adminRoute)
 
-app.get('/api/test',async(req:Request,res:Response)=>{
-     res.json({message:'hai'})
-})
 
 const port = 5000
 

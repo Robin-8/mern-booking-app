@@ -19,6 +19,7 @@ const userSchema = new mongoose_1.default.Schema({
     password: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
+    role: { type: String, enum: ['user', 'admin', 'superadmin'], default: 'user' }
 }, { timestamps: true
 });
 userSchema.pre('save', function (next) {

@@ -7,6 +7,7 @@ export type UserType ={
     password: string,
     firstName: string,
     lastName: string,
+    role:"user"|"admin"|"superadmin",
 }
 
 const userSchema = new mongoose.Schema({
@@ -14,6 +15,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
+    role: { type: String, enum: ['user', 'admin', 'superadmin'], default: 'user' }
 }, {timestamps: true
 })
 userSchema.pre('save', async function (next) {
